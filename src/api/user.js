@@ -23,10 +23,11 @@ export function logout() {
   })
 }
 
-export function get_typhoon_by_id() {
+export function createUser(data) {
   return request({
-    url: '/get_typhoon_by_id/',
-    method: 'post'
+    url: '/create_user/',
+    method: 'post',
+    data: data
   })
 }
 

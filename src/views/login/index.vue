@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">用户登陆</h3>
       </div>
 
       <el-form-item prop="username">
@@ -13,7 +13,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="用户名"
           name="username"
           type="text"
           tabindex="1"
@@ -31,7 +31,7 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="Password"
+            placeholder="密码"
             name="password"
             tabindex="2"
             autocomplete="on"
@@ -44,53 +44,84 @@
           </span>
         </el-form-item>
       </el-tooltip>
-
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div style="position:relative">
-        <div class="tips">
-          <span>Username : admin</span>
-          <span>Password : any</span>
-        </div>
-        <div class="tips">
-          <span style="margin-right:18px;">Username : editor</span>
-          <span>Password : any</span>
-        </div>
-
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          Or connect with
-        </el-button>
-      </div>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登陆</el-button>
+      <el-button :loading="loading" type="primary" style="width:30%; margin-left: auto; margin-right: auto" @click="dialogFormVisible = true">注册</el-button>
     </el-form>
-
-    <el-dialog title="Or connect with" :visible.sync="showDialog">
-      Can not be simulated on local, so please combine you own business simulation! ! !
-      <br>
-      <br>
-      <br>
-      <social-sign />
+    <el-dialog title="创建用户" :visible.sync="dialogFormVisible">
+      <el-form ref="registerForm" :model="registerForm" status-icon :rules="rules" label-width="100px" class="demo-registerForm">
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="registerForm.username" type="text" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="registerForm.email" type="text" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input ref="password_r" v-model="registerForm.password" :type="passwordType_r" autocomplete="off" />
+          <span class="show-pwd" @click="showPwd_r">
+            <svg-icon :icon-class="passwordType === 'password_r' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPassword">
+          <el-input ref="password_r" v-model="registerForm.checkPassword" :type="passwordType_r" autocomplete="off" />
+          <span class="show-pwd" @click="showPwd_r">
+            <svg-icon :icon-class="passwordType === 'password_r' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('registerForm')">提交</el-button>
+          <el-button @click="resetForm('registerForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-import SocialSign from './components/SocialSignin'
+import { createUser } from '@/api/user'
 
 export default {
   name: 'Login',
-  components: { SocialSign },
   data() {
+    const validateEmail = (rule, value, callback) => {
+      const reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+      if (reg.test(value)) {
+        callback()
+      } else {
+        callback(new Error('请输入正确的邮箱'))
+      }
+    }
+    const validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else if (value.length < 6) {
+        callback(new Error('密码不能少于6位'))
+      } else {
+        if (this.registerForm.checkPassword !== '') {
+          this.$refs.registerForm.validateField('checkPassword')
+        }
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.registerForm.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('请输入正确的用户名'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码不能少于6位'))
       } else {
         callback()
       }
@@ -105,11 +136,32 @@ export default {
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
+      passwordType_r: 'password',
       capsTooltip: false,
       loading: false,
-      showDialog: false,
+      dialogFormVisible: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
+      registerForm: {
+        username: 'test',
+        email: '2513150647@qq.com',
+        password: '123456',
+        checkPassword: '123456'
+      },
+      rules: {
+        username: [
+          { required: true, trigger: 'blur', message: '请输入用户名' }
+        ],
+        email: [
+          { required: true, validator: validateEmail, trigger: 'blur' }
+        ],
+        password: [
+          { required: true, validator: validatePass, trigger: 'blur' }
+        ],
+        checkPassword: [
+          { required: true, validator: validatePass2, trigger: 'blur' }
+        ]
+      }
     }
   },
   watch: {
@@ -138,6 +190,43 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          console.log(this.registerForm)
+          createUser(this.registerForm).then(response => {
+            console.log(response)
+            if (response.status === 201) {
+              this.$message({
+                message: '用户' + response.data.username + '创建成功!\n打开邮箱' + response.data.email + '确认链接以激活账户',
+                type: 'success'
+              })
+            } else {
+              this.$message.error({
+                message: '用户' + response.data.username + '创建失败!\n请稍后重新尝试'
+              })
+            }
+          })
+          console.log('创建成功')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
+    },
+    showPwd_r() {
+      if (this.passwordType_r === 'password') {
+        this.passwordType_r = ''
+      } else {
+        this.passwordType_r = 'password'
+      }
+      this.$nextTick(() => {
+        this.$refs.password_r.focus()
+      })
+    },
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
@@ -178,32 +267,11 @@ export default {
         return acc
       }, {})
     }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
   }
 }
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
 $bg:#283443;
 $light_gray:#fff;
 $cursor: #fff;
