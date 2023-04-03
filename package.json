@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "axios": "0.18.1",
+    "canvas": "^2.11.0",
     "clipboard": "2.0.4",
     "codemirror": "5.45.0",
     "core-js": "3.6.5",
@@ -40,7 +41,7 @@
     "vue-router": "3.0.2",
     "vue-splitpane": "1.0.4",
     "vuedraggable": "2.20.0",
-    "vuex": "^3.6.2",
+    "vuex": "3.1.0",
     "xlsx": "0.14.1"
   },
   "devDependencies": {
@@ -77,7 +78,7 @@
     "last 2 versions"
   ],
   "bugs": {
-    "url": "https://github.com/PanJiaChen/vue-element-admin/issues"
+    "url": ""
   },
   "engines": {
     "node": ">=8.9",
@@ -106,6 +107,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PanJiaChen/vue-element-admin.git"
+    "url": ""
   }
 }

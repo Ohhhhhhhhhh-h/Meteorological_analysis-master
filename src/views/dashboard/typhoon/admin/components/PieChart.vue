@@ -52,21 +52,22 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: [' 热带气旋', '热带低压', ':热带风暴', '强热带风暴', '台风']
+          data: ['热带低压', ':热带风暴', '强热带风暴', '台风', ' 强台风', '超级台风']
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: '从1999年到2022年',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
             data: [
-              { value: 320, name: '热带气旋' },
-              { value: 240, name: '热带低压' },
-              { value: 149, name: ':热带风暴' },
-              { value: 100, name: '强热带风暴' },
-              { value: 59, name: '台风' }
+              { value: 1784, name: '强台风' },
+              { value: 5805, name: '热带低压' },
+              { value: 4765, name: ':热带风暴' },
+              { value: 2769, name: '强热带风暴' },
+              { value: 2738, name: '台风' },
+              { value: 904, name: '超级台风' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600

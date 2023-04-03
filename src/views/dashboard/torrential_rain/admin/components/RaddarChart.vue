@@ -68,18 +68,16 @@ export default {
             }
           },
           indicator: [
-            { name: '东', max: 10000 },
-            { name: '西', max: 20000 },
-            { name: '南', max: 20000 },
-            { name: '北', max: 20000 },
-            { name: '东南', max: 20000 },
-            { name: '东北', max: 20000 }
+            { name: '春', max: 2500 },
+            { name: '冬', max: 2500 },
+            { name: '秋', max: 2500 },
+            { name: '夏', max: 2500 }
           ]
         },
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Allocated Budget', 'Expected Spending', 'Actual Spending']
+          data: ['暴雨', '大暴雨', '特大暴雨']
         },
         series: [{
           type: 'radar',
@@ -95,16 +93,16 @@ export default {
           },
           data: [
             {
-              value: [5000, 7000, 12000, 11000, 15000, 14000],
-              name: 'Allocated Budget'
+              value: [2492, 254, 462, 2463],
+              name: '暴雨'
             },
             {
-              value: [4000, 9000, 15000, 15000, 13000, 11000],
-              name: 'Expected Spending'
+              value: [353, 10, 61, 321],
+              name: '大暴雨'
             },
             {
-              value: [5500, 11000, 12000, 15000, 12000, 12000],
-              name: 'Actual Spending'
+              value: [0, 0, 1, 1],
+              name: '特大暴雨'
             }
           ],
           animationDuration: animationDuration

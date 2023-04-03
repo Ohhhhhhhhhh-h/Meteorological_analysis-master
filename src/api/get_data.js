@@ -8,3 +8,31 @@ export function searchTyphoon(data) {
   })
 }
 
+export function typhoonLineChart() {
+  return request({
+    url: '/typhonLinechart/',
+    method: 'get'
+  })
+}
+
+export function pieChart() {
+  return request({
+    url: '/typhonPieChart/',
+    method: 'get'
+  })
+}
+
+export function RainScatter() {
+  return request({
+    url: '/RainScatter/',
+    method: 'get'
+  })
+}
+
+export function searchWeather(data) {
+  return request({
+    url: '/searchWeather/',
+    method: 'post',
+    data: data
+  })
+}

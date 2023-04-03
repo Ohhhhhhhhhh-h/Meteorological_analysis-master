@@ -39,7 +39,7 @@ const constantRoutes = [
     children: [
       {
         path: 'dashboard',
-        component: 'views/dashboard/index',
+        component: 'views/dashboard/typhoon/index',
         name: 'Dashboard',
         meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
       }

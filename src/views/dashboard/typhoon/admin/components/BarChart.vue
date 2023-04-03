@@ -62,7 +62,7 @@ export default {
         },
         xAxis: [{
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: ['冬季', '春季', '夏季', '秋季'],
           axisTick: {
             alignWithLabel: true
           }
@@ -74,25 +74,39 @@ export default {
           }
         }],
         series: [{
-          name: 'pageA',
+          name: '热带风暴',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
+          data: [166, 662, 2744, 1156],
           animationDuration
         }, {
-          name: 'pageB',
+          name: '强热带风暴',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
+          data: [52, 329, 1595, 793],
           animationDuration
         }, {
-          name: 'pageC',
+          name: '台风',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
+          data: [38, 287, 1593, 820],
+          animationDuration
+        }, {
+          name: '强台风',
+          type: 'bar',
+          stack: 'vistors',
+          barWidth: '60%',
+          data: [24, 189, 1222, 476],
+          animationDuration
+        }, {
+          name: '超级台风',
+          type: 'bar',
+          stack: 'vistors',
+          barWidth: '60%',
+          data: [21, 66, 583, 334, 270],
           animationDuration
         }]
       })

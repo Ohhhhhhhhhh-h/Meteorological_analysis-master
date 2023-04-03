@@ -26,8 +26,9 @@ export default {
       type: Boolean,
       default: true
     },
+    // eslint-disable-next-line vue/require-prop-types
     chartData: {
-      type: Object,
+      // type: Object,
       required: true
     }
   },
@@ -61,7 +62,7 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartData)
     },
-    setOptions({ tropical_cyclone, tropical_depression, tropical_storm, severe_tropical_storm, typhoon_, severe_typhoon, super_typhoon } = {}) {
+    setOptions({ TS, STS, TY, STY, SuperTY } = {}) {
       this.chart.setOption({
         xAxis: {
           data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
@@ -90,42 +91,9 @@ export default {
           }
         },
         legend: {
-          data: ['热带气旋', '热带低压', '热带风暴', '强热带风暴', '台风', '强台风', '超强台风']
+          data: ['热带低压', '热带风暴', '强热带风暴', '台风', '强台风', '超强台风']
         },
         series: [{
-          name: '热带气旋', itemStyle: {
-            normal: {
-              color: '#FF005A',
-              lineStyle: {
-                color: '#FF005A',
-                width: 2
-              }
-            }
-          },
-          smooth: true,
-          type: 'line',
-          data: tropical_cyclone,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
-        },
-        {
-          name: '热带低压',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#FFFF00',
-              lineStyle: {
-                color: '#FFFF00',
-                width: 2
-              }
-            }
-          },
-          data: tropical_depression,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        },
-        {
           name: '热带风暴',
           smooth: true,
           type: 'line',
@@ -138,7 +106,7 @@ export default {
               }
             }
           },
-          data: tropical_storm,
+          data: TS,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         },
@@ -155,7 +123,7 @@ export default {
               }
             }
           },
-          data: severe_tropical_storm,
+          data: STS,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         },
@@ -172,7 +140,7 @@ export default {
               }
             }
           },
-          data: typhoon_,
+          data: TY,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         },
@@ -188,7 +156,7 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: severe_typhoon,
+          data: STY,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
         },
@@ -204,7 +172,7 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: super_typhoon,
+          data: SuperTY,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
         }]

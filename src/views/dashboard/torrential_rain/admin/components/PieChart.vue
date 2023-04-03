@@ -43,30 +43,46 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
       this.chart.setOption({
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          trigger: 'item'
+          // formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         legend: {
           left: 'center',
           bottom: '10',
-          data: [' 热带气旋', '热带低压', ':热带风暴', '强热带风暴', '台风']
+          data: ['暴雨', '大暴雨', '特大暴雨']
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: '暴雨发生次数',
             type: 'pie',
-            roseType: 'radius',
-            radius: [15, 95],
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+              borderRadius: 10,
+              borderColor: '#fff',
+              borderWidth: 2
+            },
+            label: {
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: 40,
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
+              show: false
+            },
             center: ['50%', '38%'],
             data: [
-              { value: 320, name: '热带气旋' },
-              { value: 240, name: '热带低压' },
-              { value: 149, name: ':热带风暴' },
-              { value: 100, name: '强热带风暴' },
-              { value: 59, name: '台风' }
+              { value: 174, name: '特大暴雨' },
+              { value: 745, name: '大暴雨' },
+              { value: 5671, name: '暴雨' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600

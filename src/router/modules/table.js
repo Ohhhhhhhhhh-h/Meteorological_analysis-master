@@ -5,7 +5,7 @@ import Layout from '@/layout'
 const tableRouter = {
   path: '/table',
   component: Layout,
-  redirect: '/table/complex-table',
+  redirect: '/table',
   name: 'Table',
   meta: {
     title: '数据查询',
@@ -16,7 +16,13 @@ const tableRouter = {
       path: 'complex-table',
       component: () => import('@/views/table/complex-table'),
       name: 'ComplexTable',
-      meta: { title: '数据查询' }
+      meta: { title: '台风查询' }
+    },
+    {
+      path: 'weather_complex_table',
+      component: () => import('@/views/table/weather_complex_table'),
+      name: 'WeatherComplexTable',
+      meta: { title: '天气查询' }
     }
   ]
 }

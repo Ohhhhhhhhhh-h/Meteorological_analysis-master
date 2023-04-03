@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="handleAddRole">新建用户</el-button>
 
     <el-table :data="rolesList" style="width: 100%;margin-top:30px;" border>
       <el-table-column align="center" label="用户名" width="220">
@@ -13,15 +12,9 @@
           {{ scope.row.email }}
         </template>
       </el-table-column>
-      <el-table-column align="header-center" label="权限">
+      <el-table-column align="header-center" label="URL">
         <template slot-scope="scope">
           {{ scope.row.url }}
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="Operations">
-        <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -51,7 +44,7 @@
 <script>
 import path from 'path'
 import { deepClone } from '@/utils'
-import { getRoutes, getUsers, addRole, deleteRole, updateRole } from '@/api/role'
+import { getUsers, addRole, updateRole } from '@/api/role'
 
 const defaultRole = {
   url: '',
@@ -81,16 +74,9 @@ export default {
     }
   },
   created() {
-    // Mock: get all routes and roles list from server
-    // this.getRoutes()
     this.getRoles()
   },
   methods: {
-    async getRoutes() {
-      const res = await getRoutes()
-      this.serviceRoutes = res.data
-      this.routes = this.generateRoutes(res.data)
-    },
     async getRoles() {
       const res = await getUsers()
       this.rolesList = res.data.results
@@ -137,42 +123,6 @@ export default {
         }
       })
       return data
-    },
-    handleAddRole() {
-      this.role = Object.assign({}, defaultRole)
-      if (this.$refs.tree) {
-        this.$refs.tree.setCheckedNodes([])
-      }
-      this.dialogType = 'new'
-      this.dialogVisible = true
-    },
-    handleEdit(scope) {
-      this.dialogType = 'edit'
-      this.dialogVisible = true
-      this.checkStrictly = true
-      this.role = deepClone(scope.row)
-      this.$nextTick(() => {
-        const routes = this.generateRoutes(this.role.routes)
-        this.$refs.tree.setCheckedNodes(this.generateArr(routes))
-        // set checked state of a node not affects its father and child nodes
-        this.checkStrictly = false
-      })
-    },
-    handleDelete({ $index, row }) {
-      this.$confirm('确定要删除这个用户么?', '危险', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(async() => {
-          await deleteRole(row.key)
-          this.rolesList.splice($index, 1)
-          this.$message({
-            type: 'success',
-            message: 'Delete succed!'
-          })
-        })
-        .catch(err => { console.error(err) })
     },
     generateTree(routes, basePath = '/', checkedKeys) {
       const res = []

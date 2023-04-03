@@ -6,6 +6,9 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
+import { RainScatter } from '@/api/get_data'
+
+let rain_square_data
 
 export default {
   mixins: [resize],
@@ -30,7 +33,10 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.initChart()
+      RainScatter().then(response => {
+        rain_square_data = response.data
+        this.initChart()
+      })
     })
   },
   beforeDestroy() {
@@ -43,33 +49,42 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
       this.chart.setOption({
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
-        },
-        legend: {
+        dataset: [
+          {
+            source: rain_square_data
+          }
+        ],
+        title: {
+          text: '84个测站2005-2023年平均降水量',
           left: 'center',
-          bottom: '10',
-          data: [' 热带气旋', '热带低压', ':热带风暴', '强热带风暴', '台风']
+          top: 16
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        xAxis: {
+          // min: 2005,
+          type: 'category',
+          axisTick: {
+            alignWithLabel: true
+          }
+        },
+        yAxis: {
+          type: 'value'
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
-            type: 'pie',
-            roseType: 'radius',
-            radius: [15, 95],
-            center: ['50%', '38%'],
-            data: [
-              { value: 320, name: '热带气旋' },
-              { value: 240, name: '热带低压' },
-              { value: 149, name: ':热带风暴' },
-              { value: 100, name: '强热带风暴' },
-              { value: 59, name: '台风' }
-            ],
-            animationEasing: 'cubicInOut',
-            animationDuration: 2600
+            symbolSize: 20,
+            name: '年平均降水量',
+            type: 'bar',
+            encode: {
+              x: 3,
+              y: 1
+            }
           }
         ]
       })

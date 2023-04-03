@@ -36,14 +36,6 @@ export default {
       chart: null
     }
   },
-  watch: {
-    chartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val)
-      }
-    }
-  },
   mounted() {
     this.$nextTick(() => {
       this.initChart()
@@ -61,14 +53,27 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartData)
     },
-    setOptions({ tropical_cyclone, tropical_depression, tropical_storm, severe_tropical_storm, typhoon_, severe_typhoon, super_typhoon } = {}) {
+    setOptions() {
       this.chart.setOption({
+        dataset: {
+          source: [
+            ['月', '暴雨', '大暴雨', '特大暴雨'],
+            ['1月', 17, 1, 0],
+            ['2月', 50, 0, 0],
+            ['3月', 187, 9, 0],
+            ['4月', 271, 27, 0],
+            ['5月', 903, 120, 0],
+            ['6月', 1318, 206, 0],
+            ['7月', 967, 156, 0],
+            ['8月', 908, 107, 0],
+            ['9月', 588, 58, 1],
+            ['10月', 337, 46, 1],
+            ['11月', 111, 13, 0],
+            ['12月', 14, 2, 0]
+          ]
+        },
         xAxis: {
-          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-          boundaryGap: false,
-          axisTick: {
-            show: false
-          }
+          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
         },
         grid: {
           left: 10,
@@ -85,128 +90,36 @@ export default {
           padding: [5, 10]
         },
         yAxis: {
-          axisTick: {
-            show: false
-          }
         },
         legend: {
-          data: ['热带气旋', '热带低压', '热带风暴', '强热带风暴', '台风', '强台风', '超强台风']
+          data: ['暴雨', '大暴雨', '特大暴雨']
         },
         series: [{
-          name: '热带气旋', itemStyle: {
-            normal: {
-              color: '#FF005A',
-              lineStyle: {
-                color: '#FF005A',
-                width: 2
-              }
-            }
-          },
+          name: '暴雨',
           smooth: true,
-          type: 'line',
-          data: tropical_cyclone,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
+          encode: {
+            x: '月',
+            y: '暴雨'
+          },
+          type: 'line'
         },
         {
-          name: '热带低压',
+          name: '大暴雨',
           smooth: true,
           type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#FFFF00',
-              lineStyle: {
-                color: '#FFFF00',
-                width: 2
-              }
-            }
-          },
-          data: tropical_depression,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
+          encode: {
+            x: '月',
+            y: '大暴雨'
+          }
         },
         {
-          name: '热带风暴',
+          name: '特大暴雨',
           smooth: true,
           type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#3888fa',
-              lineStyle: {
-                color: '#3888fa',
-                width: 2
-              }
-            }
-          },
-          data: tropical_storm,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        },
-        {
-          name: '强热带风暴',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#008000',
-              lineStyle: {
-                color: '#008000',
-                width: 2
-              }
-            }
-          },
-          data: severe_tropical_storm,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        },
-        {
-          name: '台风',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#FFA500',
-              lineStyle: {
-                color: '#FFA500',
-                width: 2
-              }
-            }
-          },
-          data: typhoon_,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        },
-        {
-          name: '强台风', itemStyle: {
-            normal: {
-              color: '#FFC0CB',
-              lineStyle: {
-                color: '#FFC0CB',
-                width: 2
-              }
-            }
-          },
-          smooth: true,
-          type: 'line',
-          data: severe_typhoon,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
-        },
-        {
-          name: '超强台风', itemStyle: {
-            normal: {
-              color: '#FF005A',
-              lineStyle: {
-                color: '#FF005A',
-                width: 2
-              }
-            }
-          },
-          smooth: true,
-          type: 'line',
-          data: super_typhoon,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
+          encode: {
+            x: '月',
+            value: '特大暴雨'
+          }
         }]
       })
     }

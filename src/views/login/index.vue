@@ -144,7 +144,7 @@ export default {
       otherQuery: {},
       registerForm: {
         username: 'test',
-        email: '2513150647@qq.com',
+        email: '',
         password: '123456',
         checkPassword: '123456'
       },

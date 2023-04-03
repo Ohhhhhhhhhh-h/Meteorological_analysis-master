@@ -8,7 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 // import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
+// import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
 
@@ -73,13 +73,21 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/TyphoonDashBoard',
+    name: 'dashboard',
+    meta: { title: '统计', icon: 'dashboard', affix: true },
     children: [
       {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: '台风', icon: 'dashboard', affix: true }
+        path: 'TyphoonDashBoard',
+        component: () => import('@/views/dashboard/typhoon/index'),
+        name: 'typhoon',
+        meta: { title: '台风统计', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'TorrentialRain',
+        component: () => import('@/views/dashboard/torrential_rain/index'),
+        name: 'torrential_rain',
+        meta: { title: '暴雨统计', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -121,7 +129,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/role'),
         name: 'RolePermission',
         meta: {
-          title: '角色管理',
+          title: '用户管理',
           roles: ['admin']
         }
       }
@@ -130,7 +138,7 @@ export const asyncRoutes = [
 
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,
-  chartsRouter,
+  // chartsRouter,
   // nestedRouter,
   tableRouter,
 
@@ -146,7 +154,6 @@ const createRouter = () => new Router({
 
 const router = createRouter()
 
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
